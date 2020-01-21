@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NewsProject</string>
+    <string name="picture">picture</string>
+    <string name="retry">Повторить</string>
+    <string name="web_error">Нет ссылки на web страницу</string>
+
+</resources>
