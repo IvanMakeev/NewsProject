@@ -7,6 +7,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.newsproject.R
 import com.example.newsproject.data.model.json.Article
+import com.example.newsproject.data.model.room.ArticleCache
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
@@ -14,7 +15,7 @@ import java.lang.Exception
 class ArticleViewHolder(
     itemView: View,
     private var itemClickListener: PagedArticleAdapter.OnItemClickListener
-) : BaseViewHolder<Article>(itemView) {
+) : BaseViewHolder<ArticleCache>(itemView) {
 
     private val title: TextView = itemView.findViewById(R.id.title)
     private val newsImage: ImageView = itemView.findViewById(R.id.article_image)
@@ -22,7 +23,7 @@ class ArticleViewHolder(
     private val date: TextView = itemView.findViewById(R.id.date)
     private val progress: ProgressBar = itemView.findViewById(R.id.loading_image_progress)
 
-    override fun bind(data: Article?) {
+    override fun bind(data: ArticleCache?) {
         data?.urlToImage?.let { loadImage(it) }
         title.text = data?.title
         description.text = data?.description
@@ -34,7 +35,7 @@ class ArticleViewHolder(
             itemView.setOnClickListener { itemClickListener.onItemClick(data?.url!!) }
         }
 
-        Log.d("TAG", data?.publishedAt)
+        Log.d("TAG", data!!.publishedAt!!)
     }
 
     private fun loadImage(urlToImage: String) {

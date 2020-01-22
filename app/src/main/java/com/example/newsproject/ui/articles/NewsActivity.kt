@@ -2,6 +2,7 @@ package com.example.newsproject.ui.articles
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.newsproject.R
 
 class NewsActivity : AppCompatActivity() {
@@ -23,5 +24,10 @@ class NewsActivity : AppCompatActivity() {
         if (supportFragmentManager.backStackEntryCount == 0) {
             finish()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("NewsActivity", "onDestroy")
     }
 }

@@ -5,7 +5,7 @@ import com.example.newsproject.data.datasource.NetworkState
 import com.example.newsproject.data.datasource.Status
 import kotlinx.android.synthetic.main.item_network_state.view.*
 
-class NetworkStateViewHolder(val view: View, private val retryCallback: () -> Unit) :
+class NetworkStateViewHolder(view: View, private val retryCallback: () -> Unit) :
     BaseViewHolder<NetworkState>(view) {
 
     init {

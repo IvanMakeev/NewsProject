@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsproject.AppDelegate
 import com.example.newsproject.R
-import com.example.newsproject.data.datasource.NetworkState
+//import com.example.newsproject.data.datasource.NetworkState
 import com.example.newsproject.data.model.json.Article
+import com.example.newsproject.data.repository.ArticleSearchResult
 import com.example.newsproject.ui.adapter.ArticlesDiffUtilsItemCallback
 import com.example.newsproject.ui.adapter.PagedArticleAdapter
 import com.example.newsproject.ui.articles.web.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_recycler_news.*
+import kotlinx.android.synthetic.main.item_network_state.*
 import javax.inject.Inject
 
 class ArticlesFragment : Fragment(), ArticlesView, PagedArticleAdapter.OnItemClickListener {
@@ -43,9 +45,6 @@ class ArticlesFragment : Fragment(), ArticlesView, PagedArticleAdapter.OnItemCli
         super.onCreate(savedInstanceState)
         AppDelegate.getInjector().buildFragmentComponent().inject(this)
         presenter.onAttach(this)
-//        presenter.newsList.observe(this, Observer {
-//            articleAdapter.submitList(it)
-//        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -76,14 +75,25 @@ class ArticlesFragment : Fragment(), ArticlesView, PagedArticleAdapter.OnItemCli
 
     override fun onDestroy() {
         super.onDestroy()
-//        presenter.disposeAll()
         presenter.onDetach()
+        Log.d("ArticlesFragment", "onDestroy")
+        if (requireActivity().isFinishing) {
+            AppDelegate.getInjector().clearFragmentComponent()
+            Log.d("ArticlesFragment", "if onDestroy")
+        }
     }
 
-    override fun showArticles(articles: PagedList<Article>) {
-        articleAdapter.submitList(articles)
+    override fun showArticles(result: ArticleSearchResult) {
+        result.data.observe(this, Observer {
+            Log.d("Fragment", "list: ${it?.size}")
+            articleAdapter.submitList(it)
+        })
         Log.d("onResume", "showArticles " + articleAdapter.itemCount.toString())
         Log.d("onResume", "showArticles " + articleAdapter.toString())
+
+        result.networkState.observe(this, Observer {
+            articleAdapter.setNetworkState(it)
+        })
     }
 
     override fun onItemClick(url: String) {
@@ -109,7 +119,5 @@ class ArticlesFragment : Fragment(), ArticlesView, PagedArticleAdapter.OnItemCli
         layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         recycler.layoutManager = layoutManager
         recycler.adapter = articleAdapter
-        presenter.getNetworkState().observe(this, Observer<NetworkState> { articleAdapter.setNetworkState(it) })
-
     }
 }

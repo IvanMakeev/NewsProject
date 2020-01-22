@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import com.example.newsproject.R
 import com.example.newsproject.data.datasource.NetworkState
 import com.example.newsproject.data.model.json.Article
+import com.example.newsproject.data.model.room.ArticleCache
 
 class PagedArticleAdapter(
-    diffCallback: DiffUtil.ItemCallback<Article>,
+    diffCallback: DiffUtil.ItemCallback<ArticleCache>,
     private var itemClickListener: OnItemClickListener,
     private val retryCallback: () -> Unit
-) : PagedListAdapter<Article, BaseViewHolder<*>>(diffCallback) {
+) : PagedListAdapter<ArticleCache, BaseViewHolder<*>>(diffCallback) {
 
     private var networkState: NetworkState? = null
 
@@ -35,7 +36,8 @@ class PagedArticleAdapter(
         when (holder) {
             is ArticleViewHolder -> {
                 Log.d("PagedArticleAdapter", position.toString())
-                holder.bind(this.getItem(position)!!)
+                val cache = this.getItem(position)!!
+                holder.bind(cache)
             }
             is NetworkStateViewHolder -> holder.bind(networkState)
         }

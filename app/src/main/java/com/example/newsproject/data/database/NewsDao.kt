@@ -1,5 +1,6 @@
 package com.example.newsproject.data.database
 
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -10,8 +11,8 @@ import com.example.newsproject.data.model.room.ArticleCache
 interface NewsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertArticle(articleCache: ArticleCache)
+    fun insertArticle(articleCaches: List<ArticleCache>)
 
-    @Query("select * from ArticleCache")
-    fun getAll(): List<ArticleCache>
+    @Query("select * from articles")
+    fun getArticles(): DataSource.Factory<Int, ArticleCache>
 }
