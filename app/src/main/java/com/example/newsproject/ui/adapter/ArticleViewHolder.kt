@@ -1,13 +1,12 @@
 package com.example.newsproject.ui.adapter
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.newsproject.R
-import com.example.newsproject.data.model.json.Article
-import com.example.newsproject.data.model.room.ArticleCache
+import com.example.newsproject.data.model.room.ArticleRoom
+import com.example.newsproject.utils.DateUtils
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
@@ -15,7 +14,7 @@ import java.lang.Exception
 class ArticleViewHolder(
     itemView: View,
     private var itemClickListener: PagedArticleAdapter.OnItemClickListener
-) : BaseViewHolder<ArticleCache>(itemView) {
+) : BaseViewHolder<ArticleRoom>(itemView) {
 
     private val title: TextView = itemView.findViewById(R.id.title)
     private val newsImage: ImageView = itemView.findViewById(R.id.article_image)
@@ -23,19 +22,23 @@ class ArticleViewHolder(
     private val date: TextView = itemView.findViewById(R.id.date)
     private val progress: ProgressBar = itemView.findViewById(R.id.loading_image_progress)
 
-    override fun bind(data: ArticleCache?) {
-        data?.urlToImage?.let { loadImage(it) }
-        title.text = data?.title
-        description.text = data?.description
-        date.text = data?.publishedAt
+    override fun bind(data: ArticleRoom?) {
+        data?.let { safeData ->
+            safeData.urlToImage?.let { url ->
+                loadImage(url)
+            }
+            title.text = safeData.title
+            description.text = safeData.description
+            safeData.publishedAt?.let {
+                date.text = DateUtils.format(it)
+            }
 
-        if (data?.url.isNullOrEmpty()) {
-            itemView.setOnClickListener { itemClickListener.onItemClick("") }
-        } else {
-            itemView.setOnClickListener { itemClickListener.onItemClick(data?.url!!) }
+            if (safeData.url.isNullOrEmpty()) {
+                itemView.setOnClickListener { itemClickListener.onItemClick("") }
+            } else {
+                itemView.setOnClickListener { itemClickListener.onItemClick(safeData.url!!) }
+            }
         }
-
-        Log.d("TAG", data!!.publishedAt!!)
     }
 
     private fun loadImage(urlToImage: String) {

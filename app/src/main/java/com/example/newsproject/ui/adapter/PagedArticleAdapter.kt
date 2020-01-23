@@ -1,20 +1,18 @@
 package com.example.newsproject.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.newsproject.R
-import com.example.newsproject.data.datasource.NetworkState
-import com.example.newsproject.data.model.json.Article
-import com.example.newsproject.data.model.room.ArticleCache
+import com.example.newsproject.data.repository.network.NetworkState
+import com.example.newsproject.data.model.room.ArticleRoom
 
 class PagedArticleAdapter(
-    diffCallback: DiffUtil.ItemCallback<ArticleCache>,
+    diffCallback: DiffUtil.ItemCallback<ArticleRoom>,
     private var itemClickListener: OnItemClickListener,
     private val retryCallback: () -> Unit
-) : PagedListAdapter<ArticleCache, BaseViewHolder<*>>(diffCallback) {
+) : PagedListAdapter<ArticleRoom, BaseViewHolder<*>>(diffCallback) {
 
     private var networkState: NetworkState? = null
 
@@ -28,16 +26,14 @@ class PagedArticleAdapter(
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_network_state, parent, false)
                 NetworkStateViewHolder(view, retryCallback)
             }
-            else -> throw IllegalArgumentException("Unknown view type")
+            else -> throw IllegalArgumentException(parent.context.getString(R.string.error_view_type))
         }
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         when (holder) {
             is ArticleViewHolder -> {
-                Log.d("PagedArticleAdapter", position.toString())
-                val cache = this.getItem(position)!!
-                holder.bind(cache)
+                holder.bind(getItem(position))
             }
             is NetworkStateViewHolder -> holder.bind(networkState)
         }

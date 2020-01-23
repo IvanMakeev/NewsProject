@@ -1,14 +1,16 @@
 package com.example.newsproject.data.model.mapper
 
-import com.example.newsproject.data.model.json.Article
-import com.example.newsproject.data.model.room.ArticleCache
+import com.example.newsproject.data.model.json.ArticleJson
+import com.example.newsproject.data.model.room.ArticleRoom
 import javax.inject.Inject
 
-class JsonMapper @Inject constructor() :
-    IMapper<Article, ArticleCache> {
+/**
+ * Маппер для конвертации Json в Room
+ */
+class JsonMapper @Inject constructor() : IMapper<ArticleJson, ArticleRoom> {
 
-    override fun mapFromJsonToRoom(type: Article): ArticleCache {
-        return ArticleCache(
+    override fun mapFromJsonToRoom(type: ArticleJson): ArticleRoom {
+        return ArticleRoom(
             0,
             type.title,
             type.description,

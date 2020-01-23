@@ -12,7 +12,8 @@
             android:supportsRtl="true"
             android:name=".AppDelegate"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.articles.NewsActivity">
+        <activity android:name=".ui.articles.NewsActivity"
+                  android:label="@string/news_activity">
         </activity>
         <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>

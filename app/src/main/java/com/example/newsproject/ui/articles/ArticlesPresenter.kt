@@ -1,15 +1,15 @@
 package com.example.newsproject.ui.articles
 
 import com.example.newsproject.data.repository.NewsRepository
+import com.example.newsproject.ui.articles.contract.ArticlesViewContract
 
 class ArticlesPresenter(
-    private val repository: NewsRepository
+    repository: NewsRepository
 ) {
-
-    private var view: ArticlesView? = null
+    private var view: ArticlesViewContract? = null
     private val searchResult = repository.search()
 
-    fun onAttach(view: ArticlesView) {
+    fun onAttach(view: ArticlesViewContract) {
         this.view = view
     }
 
@@ -18,15 +18,18 @@ class ArticlesPresenter(
     }
 
     fun retry() {
-//        loadPagedArticle()
         searchResult.helper.retryAllFailed()
+    }
+
+    fun openWebView(url: String) {
+        if (url.isEmpty()) {
+            view?.showWebViewErrorToast()
+            return
+        }
+        view?.openWebViewFragment(url)
     }
 
     fun onDetach() {
         this.view = null
-    }
-
-    fun openWebView(url: String) {
-        view?.openWebViewFragment(url)
     }
 }

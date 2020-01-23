@@ -31,20 +31,25 @@ class WebViewFragment : Fragment() {
     private lateinit var webViewClient: WebViewClient
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        retainInstance = true
-        webViewClient = initWebViewClient()
-        return inflater.inflate(R.layout.fragment_web_view, container, false);
+        return inflater.inflate(R.layout.fragment_web_view, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val url = arguments?.getString(URL)
-
-        web_view.webViewClient = webViewClient
-        web_view.loadUrl(url)
-        web_view.settings.apply {
-            cacheMode = WebSettings.LOAD_NO_CACHE
+        if (savedInstanceState != null) {
+            web_view.restoreState(savedInstanceState)
+        } else {
+            webViewClient = initWebViewClient()
+            web_view.webViewClient = webViewClient
+            web_view.loadUrl(url)
+            web_view.settings.apply {
+                cacheMode = WebSettings.LOAD_NO_CACHE
+            }
         }
+    }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        web_view.saveState(outState)
     }
 
     private fun initWebViewClient(): WebViewClient {

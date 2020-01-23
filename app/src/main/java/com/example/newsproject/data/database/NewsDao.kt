@@ -5,14 +5,14 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.newsproject.data.model.room.ArticleCache
+import com.example.newsproject.data.model.room.ArticleRoom
 
 @Dao
 interface NewsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertArticle(articleCaches: List<ArticleCache>)
+    fun insertArticle(articleCaches: List<ArticleRoom>)
 
     @Query("select * from articles")
-    fun getArticles(): DataSource.Factory<Int, ArticleCache>
+    fun getArticles(): DataSource.Factory<Int, ArticleRoom>
 }

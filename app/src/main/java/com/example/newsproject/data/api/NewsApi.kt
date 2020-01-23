@@ -1,7 +1,6 @@
 package com.example.newsproject.data.api
 
 import com.example.newsproject.data.model.json.News
-import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

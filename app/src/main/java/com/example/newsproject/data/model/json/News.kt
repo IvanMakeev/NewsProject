@@ -9,5 +9,5 @@ data class News(
     @SerializedName("totalResults")
     var totalResults: Int? = null,
     @SerializedName("articles")
-    var articles: List<Article>? = null
+    var articles: List<ArticleJson>? = null
 )

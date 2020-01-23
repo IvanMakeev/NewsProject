@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">NewsProject</string>
     <string name="picture">picture</string>
-    <string name="retry">Повторить</string>
-    <string name="web_error">Нет ссылки на web страницу</string>
+    <string name="retry">Retry</string>
+    <string name="web_error">Doesn\'t has a reference to a web page</string>
+    <string name="error_view_type">Unknown view type</string>
+    <string name="news_application">News Application</string>
+    <string name="news_activity">NewsActivity</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
 
 </resources>

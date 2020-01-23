@@ -5,9 +5,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/default_dp"
-        android:padding="@dimen/default_dp"
-        app:cardCornerRadius="@dimen/default_dp"
+        android:elevation="@dimen/default_padding"
+        android:padding="@dimen/default_padding"
+        app:cardCornerRadius="@dimen/default_padding"
         app:cardUseCompatPadding="true"
         android:focusable="true"
         android:clickable="true"
@@ -37,18 +37,18 @@
                 android:id="@+id/article_image"
                 android:layout_gravity="center"
                 android:contentDescription="@string/picture"
-                android:paddingStart="@dimen/default_dp"
-                android:paddingLeft="@dimen/default_dp"
-                android:paddingTop="@dimen/default_dp"
-                android:paddingEnd="@dimen/default_dp"
-                android:paddingRight="@dimen/default_dp"/>
+                android:paddingStart="@dimen/default_padding"
+                android:paddingLeft="@dimen/default_padding"
+                android:paddingTop="@dimen/default_padding"
+                android:paddingEnd="@dimen/default_padding"
+                android:paddingRight="@dimen/default_padding"/>
 
         <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/default_dp"
+                android:padding="@dimen/default_padding"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 tools:text="description"/>
 
@@ -56,7 +56,7 @@
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/default_dp"
+                android:padding="@dimen/default_padding"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 tools:text="date"/>
     </LinearLayout>

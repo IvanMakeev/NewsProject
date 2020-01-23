@@ -3,29 +3,38 @@ package com.example.newsproject.data.repository
 import androidx.paging.LivePagedListBuilder
 import com.example.newsproject.data.api.NewsApi
 import com.example.newsproject.data.database.NewsLocalCache
+import com.example.newsproject.data.model.room.ArticleRoom
+import com.example.newsproject.data.repository.boundary.ArticleBoundaryCallback
+import com.example.newsproject.data.repository.core.SearchResult
+import com.example.newsproject.data.repository.core.BaseRepository
+import java.util.concurrent.Executor
 
 class NewsRepository(
     private val newsApi: NewsApi,
-    private val cache: NewsLocalCache
-) {
+    private val cache: NewsLocalCache,
+    private val ioExecutor: Executor
+) : BaseRepository {
     companion object {
         private const val DATABASE_PAGE_SIZE = 5
     }
 
-    fun search(): ArticleSearchResult {
-
-        // Get data source factory from the local cache
+    override fun search(): SearchResult<ArticleRoom> {
+        //Получени фабрики из локального кеша
         val dataSourceFactory = cache.getArticles()
 
-        // Construct the boundary callback
-        val boundaryCallback = ArticleBoundaryCallback(newsApi, cache)
-        val networkErrors = boundaryCallback.networkState
+        //Конструирование boundary callback
+        val boundaryCallback = ArticleBoundaryCallback(newsApi, cache, ioExecutor)
+        val networkErrors = boundaryCallback.networkStateLiveData
 
-        // Get the paged list
+        //Получение PagedList
         val data = LivePagedListBuilder(dataSourceFactory, DATABASE_PAGE_SIZE)
             .setBoundaryCallback(boundaryCallback)
             .build()
 
-        return ArticleSearchResult(data, networkErrors, boundaryCallback.helper)
+        return SearchResult(
+            data,
+            networkErrors,
+            boundaryCallback.helper
+        )
     }
 }

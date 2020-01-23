@@ -11,6 +11,9 @@ class ApiKeyInterceptor : Interceptor {
         private const val PROPERTY_API_KEY = "apiKey"
     }
 
+    /**
+    Interceptor для встраивания api ключа в запрос
+     */
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()

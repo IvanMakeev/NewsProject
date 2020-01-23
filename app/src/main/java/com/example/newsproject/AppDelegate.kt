@@ -16,7 +16,6 @@ class AppDelegate : Application() {
 
     private lateinit var appComponent: AppComponent
     private var fragmentComponent: FragmentComponent? = null
-//    private var viewComponent: ViewComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -39,20 +38,4 @@ class AppDelegate : Application() {
     fun clearFragmentComponent() {
         fragmentComponent = null
     }
-//
-//    fun plusViewComponent(articlesFragment: ArticlesFragment): ViewComponent {
-//        if (viewComponent == null) {
-//            viewComponent = buildFragmentComponent()
-//                .viewComponentBuilder()
-//                .viewModule(ViewModule(articlesFragment))
-//                .build()
-//        }
-//        return viewComponent as ViewComponent
-//    }
-//
-//    fun clearViewComponent() {
-//        viewComponent = null
-//    }
-//
-//    fun getInjectorView() = viewComponent
 }
