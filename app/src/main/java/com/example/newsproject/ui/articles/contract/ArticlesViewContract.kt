@@ -10,4 +10,6 @@ interface ArticlesViewContract {
     fun openWebViewFragment(url:String)
 
     fun showWebViewErrorToast()
+
+    fun refreshIsDone(flag: Boolean)
 }

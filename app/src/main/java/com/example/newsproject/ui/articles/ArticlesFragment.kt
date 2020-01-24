@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.newsproject.AppDelegate
 import com.example.newsproject.R
 import com.example.newsproject.data.model.room.ArticleRoom
@@ -20,7 +21,8 @@ import com.example.newsproject.ui.articles.contract.WebViewContract
 import kotlinx.android.synthetic.main.fragment_recycler_news.*
 import javax.inject.Inject
 
-class ArticlesFragment : Fragment(), ArticlesViewContract, PagedArticleAdapter.OnItemClickListener {
+class ArticlesFragment : Fragment(), ArticlesViewContract, PagedArticleAdapter.OnItemClickListener,
+    SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
         @JvmStatic
@@ -46,7 +48,8 @@ class ArticlesFragment : Fragment(), ArticlesViewContract, PagedArticleAdapter.O
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initAdapter()
-        presenter.loadPagedArticle()
+        refresher.setOnRefreshListener(this)
+        presenter.loadArticles()
     }
 
     override fun onDestroy() {
@@ -66,6 +69,14 @@ class ArticlesFragment : Fragment(), ArticlesViewContract, PagedArticleAdapter.O
 
     override fun onItemClick(url: String) {
         presenter.openWebView(url)
+    }
+
+    override fun onRefresh() {
+        presenter.onItemsRefresh()
+    }
+
+    override fun refreshIsDone(flag: Boolean) {
+        refresher.isRefreshing = !flag
     }
 
     override fun openWebViewFragment(url: String) {

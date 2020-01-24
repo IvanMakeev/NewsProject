@@ -1,6 +1,7 @@
 package com.example.newsproject.data.repository
 
 import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList.BoundaryCallback
 import com.example.newsproject.data.api.NewsApi
 import com.example.newsproject.data.database.NewsLocalCache
 import com.example.newsproject.data.model.room.ArticleRoom
@@ -18,13 +19,15 @@ class NewsRepository(
         private const val DATABASE_PAGE_SIZE = 5
     }
 
-    override fun search(): SearchResult<ArticleRoom> {
+    private var boundaryCallback: BoundaryCallback<ArticleRoom>? = null
+
+    override fun loadData(): SearchResult<ArticleRoom> {
         //Получени фабрики из локального кеша
-        val dataSourceFactory = cache.getArticles()
+        val dataSourceFactory = cache.fetchCache()
 
         //Конструирование boundary callback
-        val boundaryCallback = ArticleBoundaryCallback(newsApi, cache, ioExecutor)
-        val networkErrors = boundaryCallback.networkStateLiveData
+        boundaryCallback = ArticleBoundaryCallback(newsApi, cache, ioExecutor)
+        val networkErrors = (boundaryCallback as ArticleBoundaryCallback).networkStateLiveData
 
         //Получение PagedList
         val data = LivePagedListBuilder(dataSourceFactory, DATABASE_PAGE_SIZE)
@@ -34,7 +37,11 @@ class NewsRepository(
         return SearchResult(
             data,
             networkErrors,
-            boundaryCallback.helper
+            (boundaryCallback as ArticleBoundaryCallback).helper
         )
+    }
+
+    override fun onItemsRefresh() {
+        (boundaryCallback as ArticleBoundaryCallback).onItemsRefresh()
     }
 }

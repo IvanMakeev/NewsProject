@@ -19,8 +19,9 @@ class ArticleViewHolder(
     private val title: TextView = itemView.findViewById(R.id.title)
     private val newsImage: ImageView = itemView.findViewById(R.id.article_image)
     private val description: TextView = itemView.findViewById(R.id.description)
-    private val date: TextView = itemView.findViewById(R.id.date)
+    private val date: TextView = itemView.findViewById(R.id.published_article_date)
     private val progress: ProgressBar = itemView.findViewById(R.id.loading_image_progress)
+    private val position: TextView = itemView.findViewById(R.id.article_position)
 
     override fun bind(data: ArticleRoom?) {
         data?.let { safeData ->
@@ -29,6 +30,7 @@ class ArticleViewHolder(
             }
             title.text = safeData.title
             description.text = safeData.description
+            position.text = (safeData.position + 1).toString()
             safeData.publishedAt?.let {
                 date.text = DateUtils.format(it)
             }

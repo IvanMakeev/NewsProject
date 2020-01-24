@@ -4,16 +4,16 @@ import com.example.newsproject.data.repository.NewsRepository
 import com.example.newsproject.ui.articles.contract.ArticlesViewContract
 
 class ArticlesPresenter(
-    repository: NewsRepository
+    private val repository: NewsRepository
 ) {
     private var view: ArticlesViewContract? = null
-    private val searchResult = repository.search()
+    private val searchResult = repository.loadData()
 
-    fun onAttach(view: ArticlesViewContract) {
-        this.view = view
+    fun onAttach(v: ArticlesViewContract) {
+        view = v
     }
 
-    fun loadPagedArticle() {
+    fun loadArticles() {
         view?.showArticles(result = searchResult)
     }
 
@@ -29,7 +29,12 @@ class ArticlesPresenter(
         view?.openWebViewFragment(url)
     }
 
+    fun onItemsRefresh() {
+        repository.onItemsRefresh()
+        view?.refreshIsDone(true)
+    }
+
     fun onDetach() {
-        this.view = null
+        view = null
     }
 }

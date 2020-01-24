@@ -33,7 +33,9 @@ class PagedArticleAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         when (holder) {
             is ArticleViewHolder -> {
-                holder.bind(getItem(position))
+                val data: ArticleRoom? = getItem(position)
+                data?.position = position
+                holder.bind(data)
             }
             is NetworkStateViewHolder -> holder.bind(networkState)
         }

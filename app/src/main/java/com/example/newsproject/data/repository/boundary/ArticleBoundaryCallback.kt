@@ -19,7 +19,7 @@ import java.util.concurrent.Executor
 class ArticleBoundaryCallback(
     private val newsApi: NewsApi,
     private val cache: NewsLocalCache,
-    ioExecutor: Executor
+    private val ioExecutor: Executor
 ) : PagedList.BoundaryCallback<ArticleRoom>() {
 
     companion object {
@@ -35,6 +35,16 @@ class ArticleBoundaryCallback(
     val helper = PagingRequestHelper(ioExecutor)
     //Функция расширения над классом PagingRequestHelper, которая возвращает сетевые состояния
     val networkStateLiveData = helper.createStatusLiveData()
+
+    /**
+     * Метод отрабатывает, когда нужно получить обновленные данные
+     */
+    fun onItemsRefresh() {
+        lastRequestedPage = 1
+        ioExecutor.execute {
+            cache.clearCache()
+        }
+    }
 
     /**
      * Метод отрабатывает, если элементов нет (первая загрузка)
@@ -98,7 +108,7 @@ class ArticleBoundaryCallback(
      * Метод отвечает за вставку новой порции данных в БД
      */
     private fun insertItemsIntoDb(listArticles: List<ArticleJson>) {
-        cache.insertArticle(listArticles) {
+        cache.insertCache(listArticles) {
             lastRequestedPage++
         }
     }

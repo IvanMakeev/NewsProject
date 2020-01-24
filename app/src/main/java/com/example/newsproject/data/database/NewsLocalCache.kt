@@ -15,7 +15,7 @@ class NewsLocalCache(
     /**
      * Обертка над DAO для работы с БД
      */
-    fun insertArticle(listArticles: List<ArticleJson>, insertFinished: () -> Unit) {
+    fun insertCache(listArticles: List<ArticleJson>, insertFinished: () -> Unit) {
         ioExecutor.execute {
             Log.d("NewsLocalCache", "inserting ${listArticles.size} articles")
             val listArticleCaches: MutableList<ArticleRoom> = ArrayList()
@@ -24,10 +24,14 @@ class NewsLocalCache(
                     list.add(mapper.mapFromJsonToRoom(it))
                 }
             }
-            newsDao.insertArticle(listArticleCaches)
+            newsDao.insertArticles(listArticleCaches)
             insertFinished()
         }
     }
 
-    fun getArticles() = newsDao.getArticles()
+    fun fetchCache() = newsDao.fetchArticles()
+
+    fun clearCache(){
+        newsDao.clearArticles()
+    }
 }

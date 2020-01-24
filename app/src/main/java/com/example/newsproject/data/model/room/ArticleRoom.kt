@@ -2,6 +2,7 @@ package com.example.newsproject.data.model.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "articles")
@@ -18,5 +19,7 @@ data class ArticleRoom(
     @ColumnInfo(name = "urlToImage")
     var urlToImage: String? = null,
     @ColumnInfo(name = "publishedAt")
-    var publishedAt: String? = null
+    var publishedAt: String? = null,
+    @Ignore
+    var position: Int = 0
 )

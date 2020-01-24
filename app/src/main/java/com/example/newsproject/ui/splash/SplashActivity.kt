@@ -13,7 +13,7 @@ import com.example.newsproject.R
 import com.example.newsproject.ui.articles.NewsActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
-class SplashActivity : AppCompatActivity(), SplashView {
+class SplashActivity : AppCompatActivity() {
 
     companion object {
         private const val MIN_OFFSET = 0f
