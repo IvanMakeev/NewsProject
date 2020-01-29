@@ -35,6 +35,14 @@ class WebViewFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initWebView(savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        web_view.saveState(outState)
+    }
+
+    private fun initWebView(savedInstanceState: Bundle?) {
         val url = arguments?.getString(URL)
         if (savedInstanceState != null) {
             web_view.restoreState(savedInstanceState)
@@ -46,10 +54,6 @@ class WebViewFragment : Fragment() {
                 cacheMode = WebSettings.LOAD_NO_CACHE
             }
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        web_view.saveState(outState)
     }
 
     private fun initWebViewClient(): WebViewClient {

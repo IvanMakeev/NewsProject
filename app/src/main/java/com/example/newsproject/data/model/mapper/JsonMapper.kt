@@ -9,7 +9,7 @@ import javax.inject.Inject
  */
 class JsonMapper @Inject constructor() : IMapper<ArticleJson, ArticleRoom> {
 
-    override fun mapFromJsonToRoom(type: ArticleJson): ArticleRoom {
+    override fun mapFrom(type: ArticleJson): ArticleRoom {
         return ArticleRoom(
             0,
             type.title,

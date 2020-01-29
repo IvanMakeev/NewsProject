@@ -32,13 +32,13 @@ class ArticleViewHolder(
             description.text = safeData.description
             position.text = (safeData.position + 1).toString()
             safeData.publishedAt?.let {
-                date.text = DateUtils.format(it)
+                setDate(it)
             }
 
             if (safeData.url.isNullOrEmpty()) {
-                itemView.setOnClickListener { itemClickListener.onItemClick("") }
+                setClickListener("")
             } else {
-                itemView.setOnClickListener { itemClickListener.onItemClick(safeData.url!!) }
+                setClickListener(safeData.url!!)
             }
         }
     }
@@ -62,5 +62,13 @@ class ArticleViewHolder(
 
                 })
         }
+    }
+
+    private fun setDate(it: String) {
+        date.text = DateUtils.format(it)
+    }
+
+    private fun setClickListener(url: String) {
+        itemView.setOnClickListener { itemClickListener.onItemClick(url) }
     }
 }

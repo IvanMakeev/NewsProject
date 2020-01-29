@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import androidx.fragment.app.Fragment
 import com.example.newsproject.AppDelegate
 import com.example.newsproject.R
 import com.example.newsproject.ui.articles.contract.WebViewContract
@@ -16,11 +17,7 @@ class NewsActivity : AppCompatActivity(), WebViewContract {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
         if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.root_view, ArticlesFragment.newInstance())
-                .commit()
+            openFragment(ArticlesFragment.newInstance())
         }
     }
 
@@ -39,10 +36,14 @@ class NewsActivity : AppCompatActivity(), WebViewContract {
     }
 
     override fun openWebViewFragment(url: String) {
+        WebViewFragment.newInstance(url)
+    }
+
+    private fun openFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
             .addToBackStack(null)
-            .replace(R.id.root_view, WebViewFragment.newInstance(url))
+            .replace(R.id.root_view, fragment)
             .commit()
     }
 }

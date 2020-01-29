@@ -21,7 +21,7 @@ class NewsLocalCache(
             val listArticleCaches: MutableList<ArticleRoom> = ArrayList()
             listArticleCaches.let { list ->
                 listArticles.forEach {
-                    list.add(mapper.mapFromJsonToRoom(it))
+                    list.add(mapper.mapFrom(it))
                 }
             }
             newsDao.insertArticles(listArticleCaches)

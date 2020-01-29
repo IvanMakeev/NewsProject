@@ -13,14 +13,20 @@ class NetworkStateViewHolder(view: View, private val retryCallback: () -> Unit) 
     }
 
     override fun bind(data: NetworkState?) {
-        //error message
-        itemView.error_message.visibility = if (data?.message != null) View.VISIBLE else View.GONE
-        data?.let {
-            itemView.error_message.text = it.message
+        itemView.apply {
+            //error message
+            error_message.visibility =
+                if (data?.message != null) View.VISIBLE else View.GONE
+            data?.let {
+                error_message.text = it.message
+            }
+
+            //loading and retry
+            retry_loading_button.visibility =
+                if (data?.status == Status.FAILED) View.VISIBLE else View.GONE
+            loading_progress_bar.visibility =
+                if (data?.status == Status.RUNNING) View.VISIBLE else View.GONE
         }
 
-        //loading and retry
-        itemView.retry_loading_button.visibility = if (data?.status == Status.FAILED) View.VISIBLE else View.GONE
-        itemView.loading_progress_bar.visibility = if (data?.status == Status.RUNNING) View.VISIBLE else View.GONE
     }
 }
