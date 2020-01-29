@@ -72,7 +72,13 @@ class ArticlesFragment : Fragment(), ArticlesViewContract, PagedArticleAdapter.O
     }
 
     override fun onRefresh() {
+        clearArticleAdapter()
         presenter.onItemsRefresh()
+    }
+
+    private fun clearArticleAdapter(){
+        recycler.scrollToPosition(0)
+        articleAdapter.submitList(null)
     }
 
     override fun refreshIsDone(flag: Boolean) {
